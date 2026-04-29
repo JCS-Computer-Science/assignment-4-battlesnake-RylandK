@@ -9,7 +9,9 @@ export default function move(gameState){
     // We've included code to prevent your Battlesnake from moving backwards
     const myHead = gameState.you.body[0];
     const myNeck = gameState.you.body[1];
-    
+    const boardWidth = gameState.board.wdith;
+    const boardHeight = gameState.board.height;
+
     if (myNeck.x < myHead.x) {        // Neck is left of head, don't move left
         moveSafety.left = false;
         
@@ -26,10 +28,25 @@ export default function move(gameState){
     // TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
     // gameState.board contains an object representing the game board including its width and height
     // https://docs.battlesnake.com/api/objects/board
+    if (myNeck.x < myHead.x) moveSafety.left = false;
+    if (myHead.x === 0) moveSaftey.left = false;
+    if (myHead.x === boardWidth - 1) moveSaftey.right = false;
+    if (myHead.y === 0) moveSaftey.down = false;
+    if (myHead.y === boardHeight - 1) moveSaftey.left = false;
     
+
+
+
     // TODO: Step 2 - Prevent your Battlesnake from colliding with itself
     // gameState.you contains an object representing your snake, including its coordinates
     // https://docs.battlesnake.com/api/objects/battlesnake
+    
+    const allSnakes = gameState.board.snakes; 
+
+    allSnakes.forEach(snake => {
+    snake.body.forEach(segment)
+    }
+    )
     
     
     // TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
@@ -41,6 +58,9 @@ export default function move(gameState){
     //Object.keys(moveSafety) returns ["up", "down", "left", "right"]
     //.filter() filters the array based on the function provided as an argument (using arrow function syntax here)
     //In this case we want to filter out any of these directions for which moveSafety[direction] == false
+    
+    
+    
     const safeMoves = Object.keys(moveSafety).filter(direction => moveSafety[direction]);
     if (safeMoves.length == 0) {
         console.log(`MOVE ${gameState.turn}: No safe moves detected! Moving down`);
